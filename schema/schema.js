@@ -15,7 +15,7 @@ const {
 } = require('graphql-iso-date')
 
 const {
-  historyResultMock,
+  recordsResultMock,
   dishesResultMock,
   dishResultMock
 } = require('./mocks')
@@ -30,25 +30,25 @@ const PageInfoType = new GraphQLObjectType({
   })
 })
 
-const HistoryType = new GraphQLObjectType({
-  name: 'History',
+const RecordConnectionType = new GraphQLObjectType({
+  name: 'RecordConnection',
   fields: () => ({
-    edges: { type: new GraphQLList(HistoryEdgeType) },
+    edges: { type: new GraphQLList(RecordEdgeType) },
     totalCount: { type: GraphQLInt },
     pageInfo: { type: PageInfoType }
   })
 })
 
-const HistoryEdgeType = new GraphQLObjectType({
-  name: 'HistoryEdge',
+const RecordEdgeType = new GraphQLObjectType({
+  name: 'RecordEdge',
   fields: () => ({
-    node: { type: HistoryNodeType },
+    node: { type: RecordType },
     cursor: { type: GraphQLString }
   })
 })
 
-const HistoryNodeType = new GraphQLObjectType({
-  name: 'HistoryNode',
+const RecordType = new GraphQLObjectType({
+  name: 'Record',
   fields: () => ({
     databaseId: { type: GraphQLID },
     day: { type: GraphQLDate },
@@ -78,28 +78,28 @@ const DishType = new GraphQLObjectType({
   fields: () => ({
     databaseId: { type: GraphQLID },
     name: { type: GraphQLString },
-    history: { type: DishHistoryType }
+    records: { type: DishRecordConnectionType }
   })
 })
 
-const DishHistoryType = new GraphQLObjectType({
-  name: 'DishHistory',
+const DishRecordConnectionType = new GraphQLObjectType({
+  name: 'DishRecordConnection',
   fields: () => ({
-    edges: { type: new GraphQLList(DishHistoryEdgeType) },
+    edges: { type: new GraphQLList(DishRecordEdgeType) },
     totalCount: { type: GraphQLInt },
     pageInfo: { type: PageInfoType }
   })
 })
 
-const DishHistoryEdgeType = new GraphQLObjectType({
-  name: 'DishHistoryEdge',
+const DishRecordEdgeType = new GraphQLObjectType({
+  name: 'DishRecordEdge',
   fields: () => ({
-    node: { type: DishHistoryNodeType },
+    node: { type: DishRecordType },
     cursor: { type: GraphQLString }
   })
 })
 
-const DishHistoryNodeType = new GraphQLObjectType({
+const DishRecordType = new GraphQLObjectType({
   name: 'Day',
   fields: () => ({
     day: { type: GraphQLDate }
@@ -109,8 +109,8 @@ const DishHistoryNodeType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    history: {
-      type: HistoryType,
+    records: {
+      type: RecordConnectionType,
       args: {
         first: { type: GraphQLInt },
         last: { type: GraphQLInt },
@@ -118,7 +118,7 @@ const RootQuery = new GraphQLObjectType({
         after: { type: GraphQLString }
       },
       resolve (parent, args) {
-        return historyResultMock
+        return recordsResultMock
       }
     },
     dishes: {

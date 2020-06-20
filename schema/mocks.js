@@ -1,4 +1,4 @@
-const historyResultMock = {
+const recordsResultMock = {
   edges: [
     {
       cursor: '1',
@@ -11,7 +11,7 @@ const historyResultMock = {
               node: {
                 databaseId: 'fried_cheese_id',
                 name: 'Fried cheese',
-                history: {
+                records: {
                   edges: [
                     {
                       cursor: '1',
@@ -37,7 +37,7 @@ const historyResultMock = {
               node: {
                 databaseId: 'spaghetti_id',
                 name: 'Spaghetti',
-                history: {
+                records: {
                   edges: [
                     {
                       cursor: '1',
@@ -76,7 +76,7 @@ const historyResultMock = {
               node: {
                 databaseId: 'fried_cheese_id',
                 name: 'Fried cheese',
-                history: {
+                records: {
                   edges: [
                     {
                       cursor: '1',
@@ -102,7 +102,7 @@ const historyResultMock = {
               node: {
                 databaseId: 'chocolate_id',
                 name: 'Chocolate',
-                history: {
+                records: {
                   edges: [
                     {
                       cursor: '1',
@@ -141,7 +141,7 @@ const historyResultMock = {
               node: {
                 databaseId: 'quesadilla_id',
                 name: 'Quesadilla',
-                history: {
+                records: {
                   edges: [
                     {
                       cursor: '1',
@@ -163,7 +163,7 @@ const historyResultMock = {
               node: {
                 databaseId: 'pizza_id',
                 name: 'Pizza',
-                history: {
+                records: {
                   edges: [
                     {
                       cursor: '1',
@@ -208,7 +208,7 @@ const dishesResultMock = {
       node: {
         databaseId: 'fried_cheese_id',
         name: 'Fried cheese',
-        history: {
+        records: {
           edges: [
             {
               cursor: '1',
@@ -234,7 +234,7 @@ const dishesResultMock = {
       node: {
         databaseId: 'spaghetti_id',
         name: 'Spaghetti',
-        history: {
+        records: {
           edges: [
             {
               cursor: '1',
@@ -256,7 +256,7 @@ const dishesResultMock = {
       node: {
         databaseId: 'chocolate_id',
         name: 'Chocolate',
-        history: {
+        records: {
           edges: [
             {
               cursor: '1',
@@ -278,7 +278,7 @@ const dishesResultMock = {
       node: {
         databaseId: 'quesadilla_id',
         name: 'Quesadilla',
-        history: {
+        records: {
           edges: [
             {
               cursor: '1',
@@ -300,7 +300,7 @@ const dishesResultMock = {
       node: {
         databaseId: 'pizza_id',
         name: 'Pizza',
-        history: {
+        records: {
           edges: [
             {
               cursor: '1',
@@ -331,7 +331,7 @@ const dishResultMock = {
   fried_cheese_id: {
     databaseId: 'fried_cheese_id',
     name: 'Fried cheese',
-    history: {
+    records: {
       edges: [
         {
           cursor: '1',
@@ -354,7 +354,7 @@ const dishResultMock = {
   spaghetti_id: {
     databaseId: 'spaghetti_id',
     name: 'Spaghetti',
-    history: {
+    records: {
       edges: [
         {
           cursor: '1',
@@ -373,7 +373,7 @@ const dishResultMock = {
   chocolate_id: {
     databaseId: 'chocolate_id',
     name: 'Chocolate',
-    history: {
+    records: {
       edges: [
         {
           cursor: '1',
@@ -392,7 +392,7 @@ const dishResultMock = {
   quesadilla_id: {
     databaseId: 'quesadilla_id',
     name: 'Quesadilla',
-    history: {
+    records: {
       edges: [
         {
           cursor: '1',
@@ -411,7 +411,7 @@ const dishResultMock = {
   pizza_id: {
     databaseId: 'pizza_id',
     name: 'Pizza',
-    history: {
+    records: {
       edges: [
         {
           cursor: '1',
@@ -430,7 +430,7 @@ const dishResultMock = {
 }
 
 module.exports = {
-  historyResultMock,
+  recordsResultMock,
   dishesResultMock,
   dishResultMock
 }
