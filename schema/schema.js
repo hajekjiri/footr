@@ -13,7 +13,8 @@ const {
 } = require('graphql-iso-date')
 
 const {
-  historyResultMock
+  historyResultMock,
+  dishesResultMock
 } = require('./mocks')
 
 const PageInfoType = new GraphQLObjectType({
@@ -115,6 +116,18 @@ const RootQuery = new GraphQLObjectType({
       },
       resolve (parent, args) {
         return historyResultMock
+      }
+    },
+    dishes: {
+      type: DishConnectionType,
+      args: {
+        first: { type: GraphQLInt },
+        last: { type: GraphQLInt },
+        before: { type: GraphQLString },
+        after: { type: GraphQLString }
+      },
+      resolve (parent, args) {
+        return dishesResultMock
       }
     }
   }
