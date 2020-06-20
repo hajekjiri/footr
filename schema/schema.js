@@ -5,7 +5,9 @@ const {
   GraphQLInt,
   GraphQLList,
   GraphQLBoolean,
-  GraphQLID
+  GraphQLID,
+  GraphQLNonNull,
+  GraphQLError
 } = require('graphql')
 
 const {
@@ -14,7 +16,8 @@ const {
 
 const {
   historyResultMock,
-  dishesResultMock
+  dishesResultMock,
+  dishResultMock
 } = require('./mocks')
 
 const PageInfoType = new GraphQLObjectType({
@@ -128,6 +131,18 @@ const RootQuery = new GraphQLObjectType({
       },
       resolve (parent, args) {
         return dishesResultMock
+      }
+    },
+    dish: {
+      type: DishType,
+      args: {
+        databaseId: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve (parent, args) {
+        if (!(args.databaseId in dishResultMock)) {
+          throw new GraphQLError(`Database ID "${args.databaseId}" doesn't match any dishes`)
+        }
+        return dishResultMock[args.databaseId]
       }
     }
   }
