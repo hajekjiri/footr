@@ -7,7 +7,8 @@ const {
   GraphQLBoolean,
   GraphQLID,
   GraphQLNonNull,
-  GraphQLError
+  GraphQLError,
+  GraphQLInputObjectType
 } = require('graphql')
 
 const {
@@ -106,9 +107,16 @@ const DishRecordType = new GraphQLObjectType({
   })
 })
 
+const DishInputType = new GraphQLInputObjectType({
+  name: 'DishInput',
+  fields: () => ({
+    name: { type: GraphQLString }
+  })
+})
+
 const RootQuery = new GraphQLObjectType({
   name: 'RootQuery',
-  fields: {
+  fields: () => ({
     records: {
       type: RecordConnectionType,
       args: {
@@ -145,9 +153,38 @@ const RootQuery = new GraphQLObjectType({
         return dishResultMock[args.databaseId]
       }
     }
-  }
+  })
+})
+
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: () => ({
+    addDish: {
+      type: DishType,
+      args: {
+        input: { type: new GraphQLNonNull(DishInputType) }
+      },
+      resolve (parent, args) {
+        // TODO
+      }
+    },
+    removeDish: {
+      type: DishType,
+      args: {
+        id: { type: GraphQLID },
+        name: { type: GraphQLString }
+      },
+      resolve (parent, args) {
+        if (args.id === undefined && args.name === undefined) {
+          throw new GraphQLError('You must provide an id or a name of the dish you want to remove.')
+        }
+        // TODO
+      }
+    }
+  })
 })
 
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation: Mutation
 })
