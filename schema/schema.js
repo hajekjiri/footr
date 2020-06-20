@@ -107,7 +107,7 @@ const DishRecordType = new GraphQLObjectType({
 })
 
 const RootQuery = new GraphQLObjectType({
-  name: 'RootQueryType',
+  name: 'RootQuery',
   fields: {
     records: {
       type: RecordConnectionType,
