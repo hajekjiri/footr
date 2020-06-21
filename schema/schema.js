@@ -131,6 +131,53 @@ const pathExists = (nodes, path) => {
   return pathExists(node.selectionSet.selections, path.slice(1))
 }
 
+const getRecords = async (dishIds) => {
+  const result = {}
+  for (const dishId of dishIds) {
+    result[dishId] = {
+      edges: [],
+      totalCount: 0,
+      pageInfo: {
+        startCursor: null,
+        endCursor: null,
+        hasPreviousPage: false,
+        hasNextPage: false
+      }
+    }
+  }
+
+  const records = await Record.find().in('dishes', dishIds)
+
+  if (records.length === 0) {
+    return result
+  }
+
+  for (const record of records) {
+    for (const dishId of record.dishes) {
+      if (!(dishId in result)) {
+        continue
+      }
+
+      result[dishId].edges.push({
+        cursor: record._id,
+        node: { day: record.day }
+      })
+    }
+  }
+
+  for (const dishId of dishIds) {
+    if (result[dishId].edges.length === 0) {
+      continue
+    }
+
+    result[dishId].totalCount = result[dishId].edges.length
+    result[dishId].pageInfo.startCursor = result[dishId].edges[0].cursor
+    result[dishId].pageInfo.endCursor = result[dishId].edges.slice(-1)[0].cursor
+  }
+
+  return result
+}
+
 const RootQuery = new GraphQLObjectType({
   name: 'RootQuery',
   fields: () => ({
@@ -178,7 +225,7 @@ const RootQuery = new GraphQLObjectType({
         result.pageInfo.startCursor = records[0]._id
         result.pageInfo.endCursor = records.slice(-1)[0]._id
 
-        result.totalCount = records.length
+        const dishSet = new Set()
         for (const record of records) {
           const elem = {
             id: record._id,
@@ -205,14 +252,21 @@ const RootQuery = new GraphQLObjectType({
 
           for (const dish of record.dishes) {
             elem.dishes.edges.push({ cursor: dish._id, node: { id: dish._id, name: dish.name } })
-
-            if (wantsDishRecords) {
-              // TODO: dish records
-            }
+            dishSet.add(dish._id)
           }
-
           result.edges.push({ cursor: elem.id, node: elem })
         }
+
+        if (wantsDishRecords) {
+          const dishRecords = await getRecords(Array.from(dishSet))
+
+          for (const record of result.edges) {
+            for (const dish of record.node.dishes.edges) {
+              dish.node.records = dishRecords[dish.node.id]
+            }
+          }
+        }
+
         return result
       }
     },
@@ -252,9 +306,13 @@ const RootQuery = new GraphQLObjectType({
 
         for (const dish of dishes) {
           result.edges.push({ cursor: dish._id, node: { id: dish._id, name: dish.name } })
+        }
 
-          if (wantsDishRecords) {
-            // TODO: dish records
+        if (wantsDishRecords) {
+          const dishRecords = await getRecords(dishes.map(x => x._id))
+
+          for (const dish of result.edges) {
+            dish.node.records = dishRecords[dish.node.id]
           }
         }
 
@@ -278,7 +336,7 @@ const RootQuery = new GraphQLObjectType({
 
         const wantsDishRecords = pathExists(
           info.fieldNodes,
-          ['dish', 'edges', 'node', 'records']
+          ['dish', 'records']
         )
 
         let dish
@@ -305,7 +363,8 @@ const RootQuery = new GraphQLObjectType({
         }
 
         if (wantsDishRecords) {
-          // TODO: dish records
+          const dishRecords = await getRecords([dish._id])
+          result.records = dishRecords[dish._id]
         }
 
         return result
@@ -363,7 +422,7 @@ const Mutation = new GraphQLObjectType({
 
         const wantsDishRecords = pathExists(
           info.fieldNodes,
-          ['dish', 'edges', 'node', 'records']
+          ['removeDish', 'records']
         )
 
         let dish
@@ -385,8 +444,11 @@ const Mutation = new GraphQLObjectType({
         }
 
         if (wantsDishRecords) {
-          // TODO: dish records
+          const dishRecords = await getRecords([dish._id])
+          result.records = dishRecords[dish._id]
         }
+
+        console.log(await Record.find().in('dishes', [dish._id]).update({ $pull: { dishes: dish._id } }))
 
         return result
       }
