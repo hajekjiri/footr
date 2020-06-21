@@ -1,6 +1,5 @@
-const express = require('express')
-const graphqlHTTP = require('express-graphql')
-const schema = require('./schema/schema')
+const { ApolloServer } = require('apollo-server')
+const { typeDefs, resolvers } = require('./schema/schema')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 
@@ -13,11 +12,10 @@ mongoose.connection.once('open', () => {
   console.log('Connected to database')
 })
 
-// Start express server
-const app = express()
-app.use('/graphql', graphqlHTTP({
-  schema,
-  graphiql: true
-}))
+// Start apollo server
+const server = new ApolloServer({
+  typeDefs,
+  resolvers
+})
 const PORT = process.env.PORT || 4000
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
+server.listen({ port: PORT }).then(({ url }) => console.log(`Apollo Server ready at ${url}`))
