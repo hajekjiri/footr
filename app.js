@@ -8,7 +8,14 @@ const resolvers = require('./schema/resolvers')
 dotenv.config()
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(
+  process.env.MONGODB_URL,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+  }
+)
 mongoose.connection.once('open', () => {
   console.log('Connected to database')
 })

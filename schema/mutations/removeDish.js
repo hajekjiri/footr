@@ -54,7 +54,7 @@ const removeDish = async (parent, args, context, info) => {
     }
   }
 
-  await Record.find().in('dishes', [dish._id]).update({ $pull: { dishes: dish._id } })
+  await Record.find().in('dishes', [dish._id]).updateMany({ $pull: { dishes: dish._id } })
 
   return result
 }
