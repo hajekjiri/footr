@@ -1,7 +1,8 @@
 const { ApolloServer } = require('apollo-server')
-const { typeDefs, resolvers } = require('./schema/schema')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
+const typeDefs = require('./schema/typeDefs')
+const resolvers = require('./schema/resolvers')
 
 // Read environment variables from .env
 dotenv.config()
