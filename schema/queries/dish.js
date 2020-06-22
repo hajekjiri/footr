@@ -12,10 +12,19 @@ const dish = async (parent, args, context, info) => {
     throw new UserInputError('You cannot combine id and name parameters.')
   }
 
-  const wantsDishRecords = pathExists(
+  let wantsDishRecords = pathExists(
     info.fieldNodes,
     ['dish', 'records']
   )
+
+  const wantsLastEaten = pathExists(
+    info.fieldNodes,
+    ['dish', 'lastEaten']
+  )
+
+  if (wantsLastEaten) {
+    wantsDishRecords = true
+  }
 
   let dish
   if (args.id !== undefined) {
@@ -43,6 +52,13 @@ const dish = async (parent, args, context, info) => {
   if (wantsDishRecords) {
     const dishRecords = await getRecords([dish._id])
     result.records = dishRecords[dish._id]
+
+    if (result.records.edges.length !== 0) {
+      result.lastEaten =
+        result.records.edges[result.records.edges.length - 1].node.day
+    } else {
+      result.lastEaten = null
+    }
   }
 
   return result

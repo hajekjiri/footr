@@ -2,10 +2,19 @@ const Dish = require('../../models/dish')
 const { getRecords, pathExists } = require('../utils')
 
 const dishes = async (parent, args, context, info) => {
-  const wantsDishRecords = pathExists(
+  let wantsDishRecords = pathExists(
     info.fieldNodes,
     ['dishes', 'edges', 'node', 'records']
   )
+
+  const wantsLastEaten = pathExists(
+    info.fieldNodes,
+    ['dishes', 'edges', 'node', 'lastEaten']
+  )
+
+  if (wantsLastEaten) {
+    wantsDishRecords = true
+  }
 
   const dishes = await Dish.find()
   const result = {
@@ -36,6 +45,12 @@ const dishes = async (parent, args, context, info) => {
 
     for (const dish of result.edges) {
       dish.node.records = dishRecords[dish.node.id]
+      if (dish.node.records.edges.length !== 0) {
+        dish.node.lastEaten =
+          dish.node.records.edges[dish.node.records.edges.length - 1].node.day
+      } else {
+        result.lastEaten = null
+      }
     }
   }
 

@@ -41,6 +41,7 @@ const typeDefs = gql`
   type Dish {
     id: ID!
     name: String!
+    lastEaten: Date
     records(first: Int, last: Int, before: String, after: String): DishRecordConnection!
   }
 

@@ -15,7 +15,7 @@ const getRecords = async (dishIds) => {
     }
   }
 
-  const records = await Record.find().in('dishes', dishIds)
+  const records = await Record.find().sort({ day: 1 }).in('dishes', dishIds)
 
   if (records.length === 0) {
     return result

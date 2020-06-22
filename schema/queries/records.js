@@ -6,16 +6,23 @@ const records = async (parent, args, context, info) => {
     info.fieldNodes,
     ['records', 'edges', 'node', 'dishes']
   )
-  const wantsDishRecords = pathExists(
+  let wantsDishRecords = pathExists(
     info.fieldNodes,
     ['records', 'edges', 'node', 'dishes', 'edges', 'node', 'records']
   )
+  const wantsLastEaten = pathExists(
+    info.fieldNodes,
+    ['records', 'edges', 'node', 'dishes', 'edges', 'node', 'lastEaten']
+  )
+  if (wantsLastEaten) {
+    wantsDishRecords = true
+  }
 
   let records
   if (wantsDishes) {
-    records = await Record.find().populate('dishes')
+    records = await Record.find().sort({ day: 1 }).populate('dishes')
   } else {
-    records = await Record.find()
+    records = await Record.find().sort({ day: 1 })
   }
 
   const result = {
@@ -75,6 +82,12 @@ const records = async (parent, args, context, info) => {
     for (const record of result.edges) {
       for (const dish of record.node.dishes.edges) {
         dish.node.records = dishRecords[dish.node.id]
+        if (dish.node.records.edges.length !== 0) {
+          dish.node.lastEaten =
+            dish.node.records.edges[dish.node.records.edges.length - 1].node.day
+        } else {
+          result.lastEaten = null
+        }
       }
     }
   }

@@ -9,6 +9,7 @@ const addDish = async (parent, args) => {
   const result = {
     id: dish._id,
     name: dish.name,
+    lastEaten: null,
     records: {
       edges: [],
       totalCount: 0,
