@@ -65,15 +65,22 @@ const typeDefs = gql`
     name: String!
   }
 
+  input RecordInput {
+    day: Date!
+    dishId: ID!
+  }
+
   type Query {
     records(first: Int, last: Int, before: String, after: String): RecordConnection!
     dishes(first: Int, last: Int, before: String, after: String): DishConnection!
-    dish(id: ID, name: String): Dish
+    dish(id: ID, name: String): Dish!
   }
 
   type Mutation {
-    addDish(input: DishInput!): Dish
-    removeDish(id: ID, name: String): Dish
+    addDish(input: DishInput!): Dish!
+    removeDish(id: ID, name: String): Dish!
+    addRecord(input: RecordInput!): Record!
+    removeRecord(input: RecordInput!): Record!
   }
 `
 module.exports = typeDefs
