@@ -46,8 +46,7 @@ const dishes = async (parent, args, context, info) => {
     for (const dish of result.edges) {
       dish.node.records = dishRecords[dish.node.id]
       if (dish.node.records.edges.length !== 0) {
-        dish.node.lastEaten =
-          dish.node.records.edges[dish.node.records.edges.length - 1].node.day
+        dish.node.lastEaten = dish.node.records.edges.slice(-1)[0].node.day
       } else {
         result.lastEaten = null
       }

@@ -47,8 +47,7 @@ const removeDish = async (parent, args, context, info) => {
     result.records = dishRecords[dish._id]
 
     if (result.records.edges.length !== 0) {
-      result.lastEaten =
-        result.records.edges[result.records.edges.length - 1].node.day
+      result.lastEaten = result.records.edges.slice(-1)[0].node.day
     } else {
       result.lastEaten = null
     }
