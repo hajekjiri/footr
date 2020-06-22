@@ -4,6 +4,7 @@ const dishes = require('./queries/dishes')
 const dish = require('./queries/dish')
 const addDish = require('./mutations/addDish')
 const removeDish = require('./mutations/removeDish')
+const removeRecord = require('./mutations/removeRecord')
 
 const resolvers = {
   Date: GraphQLDate,
@@ -14,7 +15,8 @@ const resolvers = {
   },
   Mutation: {
     addDish,
-    removeDish
+    removeDish,
+    removeRecord
   }
 }
 

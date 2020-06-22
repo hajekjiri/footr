@@ -80,7 +80,7 @@ const typeDefs = gql`
     addDish(input: DishInput!): Dish!
     removeDish(id: ID, name: String): Dish!
     addRecord(input: RecordInput!): Record!
-    removeRecord(input: RecordInput!): Record!
+    removeRecord(input: RecordInput!): Record
   }
 `
 module.exports = typeDefs
