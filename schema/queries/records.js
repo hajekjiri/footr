@@ -61,18 +61,17 @@ const records = async (parent, args, context, info) => {
       }
     }
 
-    if (record.dishes.length === 0) {
-      continue
+    if (record.dishes.length !== 0) {
+      elem.dishes.totalCount = record.dishes.length
+      elem.dishes.pageInfo.startCursor = record.dishes[0]._id
+      elem.dishes.pageInfo.endCursor = record.dishes.slice(-1)[0]._id
+
+      for (const dish of record.dishes) {
+        elem.dishes.edges.push({ cursor: dish._id, node: { id: dish._id, name: dish.name } })
+        dishSet.add(dish._id)
+      }
     }
 
-    elem.dishes.totalCount = record.dishes.length
-    elem.dishes.pageInfo.startCursor = record.dishes[0]._id
-    elem.dishes.pageInfo.endCursor = record.dishes.slice(-1)[0]._id
-
-    for (const dish of record.dishes) {
-      elem.dishes.edges.push({ cursor: dish._id, node: { id: dish._id, name: dish.name } })
-      dishSet.add(dish._id)
-    }
     result.edges.push({ cursor: elem.id, node: elem })
   }
 
