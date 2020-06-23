@@ -48,7 +48,7 @@ Connected to database
 ```
 
 ### 3. Using Footr
-For now, you can play with Footr using the GraphQL Playground which should be located at [http://localhost:4000/graphql](http://localhost:4000/graphql). I'm planning to build a CLI for Footr in the following weeks.
+For now, you can play with Footr in the GraphQL Playground which should be located at [http://localhost:4000/graphql](http://localhost:4000/graphql) once you start the server.
 
 ## Documentation
 Documentation for the GraphQL API can be found on my [GitHub Pages](https://hajekjiri.github.io/footr-backend).
