@@ -73,8 +73,8 @@ const typeDefs = gql`
   type Query {
     record(id: ID, day: Date): Record!
     records(first: Int, last: Int, before: String, after: String): RecordConnection!
-    dishes(first: Int, last: Int, before: String, after: String): DishConnection!
     dish(id: ID, name: String): Dish!
+    dishes(first: Int, last: Int, before: String, after: String): DishConnection!
   }
 
   type Mutation {

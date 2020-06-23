@@ -13,8 +13,8 @@ const resolvers = {
   Query: {
     record,
     records,
-    dishes,
-    dish
+    dish,
+    dishes
   },
   Mutation: {
     addDish,
