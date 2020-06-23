@@ -15,7 +15,9 @@ mongoose.connect(
     useUnifiedTopology: true,
     useFindAndModify: false
   }
-)
+).catch(e => {
+  console.log(e.toString())
+})
 mongoose.connection.once('open', () => {
   console.log('Connected to database')
 })
