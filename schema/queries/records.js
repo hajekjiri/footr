@@ -88,7 +88,7 @@ const records = async (parent, args, context, info) => {
           dish.node.lastEaten =
             dish.node.records.edges.slice(-1)[0].node.day
         } else {
-          result.lastEaten = null
+          dish.node.lastEaten = null
         }
       }
     }
