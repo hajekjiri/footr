@@ -52,3 +52,9 @@ For now, you can play with Footr in the GraphQL Playground which should be locat
 
 ## Documentation
 Documentation for the GraphQL API can be found on my [GitHub Pages](https://hajekjiri.github.io/footr-backend).
+
+## Used external modules
+* [apollographql/apollo-server](https://github.com/apollographql/apollo-server) is licensed under the [MIT License](https://github.com/apollographql/apollo-server/blob/master/LICENSE)
+* [motdotla/dotenv](https://github.com/motdotla/dotenv) is licensed under the [BSD-2-Clause License](https://github.com/motdotla/dotenv/blob/master/LICENSE)
+* [excitement-engineer/graphql-iso-date](https://github.com/excitement-engineer/graphql-iso-date) is licensed under the [MIT License](https://github.com/excitement-engineer/graphql-iso-date/blob/master/LICENSE)
+* [Automattic/mongoose](https://github.com/Automattic/mongoose) is licensed under the [MIT License](https://github.com/Automattic/mongoose/blob/master/LICENSE.md)
