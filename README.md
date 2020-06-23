@@ -51,7 +51,7 @@ Connected to database
 For now, you can play with Footr in the GraphQL Playground which should be located at [http://localhost:4000/graphql](http://localhost:4000/graphql) once you start the server.
 
 ## Documentation
-Documentation for the GraphQL API can be found on my [GitHub Pages](https://hajekjiri.github.io/footr-backend).
+Documentation for Footr's GraphQL API can be found on my [GitHub Pages](https://hajekjiri.github.io/footr-backend).
 
 ## Used external modules
 * [apollographql/apollo-server](https://github.com/apollographql/apollo-server) is licensed under the [MIT License](https://github.com/apollographql/apollo-server/blob/master/LICENSE)
