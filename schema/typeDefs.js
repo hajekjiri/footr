@@ -11,7 +11,7 @@ const typeDefs = gql`
   }
 
   type RecordConnection {
-    edges: [RecordEdge!]
+    edges: [RecordEdge!]!
     totalCount: Int!
     pageInfo: PageInfo!
   }
@@ -28,7 +28,7 @@ const typeDefs = gql`
   }
 
   type DishConnection {
-    edges: [DishEdge!]
+    edges: [DishEdge!]!
     totalCount: Int!
     pageInfo: PageInfo!
   }
@@ -46,7 +46,7 @@ const typeDefs = gql`
   }
 
   type DishRecordConnection {
-    edges: [DishRecordEdge!]
+    edges: [DishRecordEdge!]!
     totalCount: Int!
     pageInfo: PageInfo!
   }
