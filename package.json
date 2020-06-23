@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "server": "nodemon app.js",
-    "test": "standard"
+    "test": "standard",
+    "doc": "graphdoc --endpoint http://localhost:4000/graphql --force -o docs"
   },
   "repository": {
     "type": "git",
@@ -15,6 +16,7 @@
   "author": "",
   "license": "GPL-3.0",
   "devDependencies": {
+    "@2fd/graphdoc": "^2.4.0",
     "nodemon": "^2.0.4",
     "standard": "^14.3.4"
   },
