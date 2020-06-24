@@ -7,6 +7,11 @@ const resolvers = require('./schema/resolvers')
 // Read environment variables from .env
 dotenv.config()
 
+if (!process.env.MONGODB_CONNECTION_STRING) {
+  console.log('Error: MONGODB_CONNECTION_STRING is undefined.')
+  process.exit(1)
+}
+
 // Connect to MongoDB
 mongoose.connect(
   process.env.MONGODB_CONNECTION_STRING,
@@ -15,9 +20,7 @@ mongoose.connect(
     useUnifiedTopology: true,
     useFindAndModify: false
   }
-).catch(e => {
-  console.log(e.toString())
-})
+)
 mongoose.connection.once('open', () => {
   console.log('Connected to database')
 })
