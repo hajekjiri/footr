@@ -6,7 +6,7 @@ const {
   giveRecordsDishRecords
 } = require('../utils/record')
 
-const records = async (_, __, ___, info) => {
+const records = async (_, args, ___, info) => {
   const wantsDishes = pathExists(
     info.fieldNodes,
     ['records', 'edges', 'node', 'dishes']
@@ -23,7 +23,7 @@ const records = async (_, __, ___, info) => {
     wantsDishRecords = true
   }
 
-  const { result, dishIds } = await getRecords(wantsDishes)
+  const { result, dishIds } = await getRecords(wantsDishes, args)
   if (wantsDishRecords) {
     await giveRecordsDishRecords(result, dishIds)
   }

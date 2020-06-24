@@ -26,20 +26,72 @@ const giveRecordsDishRecords = async (result, dishIds) => {
   }
 }
 
-const getRecords = async (wantsDishes) => {
+const getRecords = async (wantsDishes, args) => {
+  if (!args.first && !args.last) {
+    throw new UserInputError('You must specify the "first" or "last" parameter to properly paginate the results.', 'BAD_PAGINATION')
+  }
+  if (args.first && args.last) {
+    throw new ApolloError('You cannot mix "first" and "last" parameters.', 'BAD_PAGINATION')
+  }
+  if (args.first && (args.first < 1 || args.first > 100)) {
+    throw new ApolloError('The "first" value must be between 1 and 100 (inclusive).', 'BAD_PAGINATION')
+  }
+  if (args.last && (args.last < 1 || args.last > 100)) {
+    throw new ApolloError('The "last" value must be between 1 and 100 (inclusive).', 'BAD_PAGINATION')
+  }
+  if (args.before) {
+    const cursor = async () => await Record.findById(args.before)
+    if (!mongoose.Types.ObjectId.isValid(args.before) || !(await cursor())) {
+      throw new ApolloError(`"before" value "${args.before}" is not a valid cursor.`, 'BAD_PAGINATION')
+    }
+  }
+  if (args.after) {
+    const cursor = async () => await Record.findById(args.after)
+    if (!mongoose.Types.ObjectId.isValid(args.after) || !(await cursor())) {
+      throw new ApolloError(`"after" value "${args.after}" is not a valid cursor.`, 'BAD_PAGINATION')
+    }
+  }
+
   const result = getEmptyConnection()
+  result.totalCount = Record.estimatedDocumentCount()
+
+  const options = {}
+  if (args.before) {
+    options._id = { $lt: args.before }
+  }
+  if (args.after) {
+    if (!('_id' in options)) {
+      options._id = {}
+    }
+    options._id.$gt = args.after
+  }
   const dishSet = new Set()
   let records
   if (wantsDishes) {
-    records = await Record.find().sort({ day: 1 }).populate('dishes')
+    if (args.first) {
+      records = await Record.find().where(options).sort({ _id: 1 })
+        .limit(args.first).populate('dishes')
+    } else {
+      records = await Record.find().where(options).sort({ _id: -1 })
+        .limit(args.last).populate('dishes')
+    }
   } else {
-    records = await Record.find().sort({ day: 1 })
+    if (args.first) {
+      records = await Record.find().where(options).sort({ _id: 1 })
+        .limit(args.first)
+    } else {
+      records = await Record.find().where(options).sort({ _id: -1 })
+        .limit(args.last)
+    }
   }
 
   if (records.length === 0) {
     return result
   }
-  result.totalCount = records.length
+  const before = await Record.findOne().where({ _id: { $lt: records[0]._id } })
+  const after = await Record.findOne().where({ _id: { $gt: records.slice(-1)[0] } })
+  result.pageInfo.hasPreviousPage = !!before
+  result.pageInfo.hasNextPage = !!after
   result.pageInfo.startCursor = records[0]._id
   result.pageInfo.endCursor = records.slice(-1)[0]._id
 

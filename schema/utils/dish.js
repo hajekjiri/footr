@@ -9,18 +9,66 @@ const {
 const Dish = require('../../models/dish')
 const Record = require('../../models/record')
 
-const getDishes = async () => {
+const getDishes = async (args) => {
+  if (!args.first && !args.last) {
+    throw new UserInputError('You must specify the "first" or "last" parameter to properly paginate the results.', 'BAD_PAGINATION')
+  }
+  if (args.first && args.last) {
+    throw new ApolloError('You cannot mix "first" and "last" parameters.', 'BAD_PAGINATION')
+  }
+  if (args.first && (args.first < 1 || args.first > 100)) {
+    throw new ApolloError('The "first" value must be between 1 and 100 (inclusive).', 'BAD_PAGINATION')
+  }
+  if (args.last && (args.last < 1 || args.last > 100)) {
+    throw new ApolloError('The "last" value must be between 1 and 100 (inclusive).', 'BAD_PAGINATION')
+  }
+  if (args.before) {
+    const cursor = async () => await Dish.findById(args.before)
+    if (!mongoose.Types.ObjectId.isValid(args.before) || !(await cursor())) {
+      throw new ApolloError(`"before" value "${args.before}" is not a valid cursor.`, 'BAD_PAGINATION')
+    }
+  }
+  if (args.after) {
+    const cursor = async () => await Dish.findById(args.after)
+    if (!mongoose.Types.ObjectId.isValid(args.after) || !(await cursor())) {
+      throw new ApolloError(`"after" value "${args.after}" is not a valid cursor.`, 'BAD_PAGINATION')
+    }
+  }
+
   const result = getEmptyConnection()
-  const dishes = await Dish.find()
+  result.totalCount = Dish.estimatedDocumentCount()
+
+  const options = {}
+  if (args.before) {
+    options._id = { $lt: args.before }
+  }
+  if (args.after) {
+    if (!('_id' in options)) {
+      options._id = {}
+    }
+    options._id.$gt = args.after
+  }
+  let dishes
+  if (args.first) {
+    dishes = await Dish.find().where(options).sort({ _id: 1 }).limit(args.first)
+  } else {
+    dishes = await Dish.find().where(options).sort({ _id: -1 }).limit(args.last)
+  }
+
   if (dishes.length === 0) {
     return result
   }
-  result.totalCount = dishes.length
+  const before = await Dish.findOne().where({ _id: { $lt: dishes[0]._id } })
+  const after = await Dish.findOne().where({ _id: { $gt: dishes.slice(-1)[0] } })
+  result.pageInfo.hasPreviousPage = !!before
+  result.pageInfo.hasNextPage = !!after
   result.pageInfo.startCursor = dishes[0]._id
   result.pageInfo.endCursor = dishes.slice(-1)[0]._id
+
   for (const dish of dishes) {
     result.edges.push({ cursor: dish._id, node: { id: dish._id, name: dish.name } })
   }
+
   return result
 }
 
