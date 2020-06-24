@@ -12,7 +12,7 @@ const {
   getSingleRecordByIdOrDay
 } = require('../utils/record')
 
-const addRecord = async (_, args, __, info) => {
+const addDishRecord = async (_, args, __, info) => {
   const wantsDishes = pathExists(
     info.fieldNodes,
     ['addRecord', 'dishes']
@@ -48,4 +48,4 @@ const addRecord = async (_, args, __, info) => {
   return result
 }
 
-module.exports = addRecord
+module.exports = addDishRecord

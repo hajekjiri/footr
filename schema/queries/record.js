@@ -8,7 +8,7 @@ const {
   getSingleRecordByIdOrDay
 } = require('../utils/record')
 
-const records = async (_, args, __, info) => {
+const record = async (_, args, __, info) => {
   const wantsDishes = pathExists(
     info.fieldNodes,
     ['record', 'dishes']
@@ -32,4 +32,4 @@ const records = async (_, args, __, info) => {
   return result
 }
 
-module.exports = records
+module.exports = record
