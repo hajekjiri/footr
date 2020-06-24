@@ -1,5 +1,10 @@
 const Record = require('../../models/record')
-const { pathExists, getRecords } = require('../utils')
+const {
+  pathExists
+} = require('../utils/common')
+const {
+  getDishRecords
+} = require('../utils/dish')
 
 const records = async (parent, args, context, info) => {
   const wantsDishes = pathExists(
@@ -79,7 +84,7 @@ const records = async (parent, args, context, info) => {
   }
 
   if (wantsDishRecords) {
-    const dishRecords = await getRecords(Array.from(dishSet))
+    const dishRecords = await getDishRecords(Array.from(dishSet))
 
     for (const record of result.edges) {
       for (const dish of record.node.dishes.edges) {

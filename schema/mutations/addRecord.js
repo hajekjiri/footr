@@ -1,6 +1,13 @@
-const { ApolloError } = require('apollo-server')
-const { pathExists, getRecords } = require('../utils')
+const {
+  ApolloError
+} = require('apollo-server')
 const Record = require('../../models/record')
+const {
+  pathExists
+} = require('../utils/common')
+const {
+  getDishRecords
+} = require('../utils/dish')
 
 const addRecord = async (parent, args, context, info) => {
   const wantsDishes = pathExists(
@@ -59,7 +66,7 @@ const addRecord = async (parent, args, context, info) => {
   }
 
   if (wantsDishRecords) {
-    const dishRecords = await getRecords(record.dishes.map(x => x._id))
+    const dishRecords = await getDishRecords(record.dishes.map(x => x._id))
 
     for (const dish of result.dishes.edges) {
       dish.node.records = dishRecords[dish.node.id]

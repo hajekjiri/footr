@@ -1,7 +1,14 @@
-const { ApolloError } = require('apollo-server')
-const { getRecords, pathExists } = require('../utils')
+const {
+  ApolloError
+} = require('apollo-server')
 const Dish = require('../../models/dish')
 const Record = require('../../models/record')
+const {
+  pathExists
+} = require('../utils/common')
+const {
+  getDishRecords
+} = require('../utils/dish')
 
 const removeDish = async (parent, args, context, info) => {
   if (args.id === undefined && args.name === undefined) {
@@ -43,7 +50,7 @@ const removeDish = async (parent, args, context, info) => {
   }
 
   if (wantsDishRecords) {
-    const dishRecords = await getRecords([dish._id])
+    const dishRecords = await getDishRecords([dish._id])
     result.records = dishRecords[dish._id]
 
     if (result.records.edges.length !== 0) {

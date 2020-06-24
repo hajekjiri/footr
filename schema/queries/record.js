@@ -1,7 +1,15 @@
-const { ApolloError, UserInputError } = require('apollo-server')
+const {
+  ApolloError,
+  UserInputError
+} = require('apollo-server')
 const mongoose = require('mongoose')
 const Record = require('../../models/record')
-const { pathExists, getRecords } = require('../utils')
+const {
+  pathExists
+} = require('../utils/common')
+const {
+  getDishRecords
+} = require('../utils/dish')
 
 const records = async (parent, args, context, info) => {
   if (args.id === undefined && args.day === undefined) {
@@ -85,7 +93,7 @@ const records = async (parent, args, context, info) => {
   }
 
   if (wantsDishRecords) {
-    const dishRecords = await getRecords(dishIds)
+    const dishRecords = await getDishRecords(dishIds)
 
     for (const dish of result.dishes.edges) {
       dish.node.records = dishRecords[dish.node.id]
