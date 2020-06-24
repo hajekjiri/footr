@@ -7,7 +7,7 @@ const {
   giveSingleDishRecords
 } = require('../utils/dish')
 
-const removeDish = async (parent, args, context, info) => {
+const removeDish = async (_, args, __, info) => {
   let wantsDishRecords = pathExists(
     info.fieldNodes,
     ['removeDish', 'records']

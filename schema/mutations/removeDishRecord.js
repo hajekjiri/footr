@@ -12,7 +12,7 @@ const {
   getSingleRecordByIdOrDay
 } = require('../utils/record')
 
-const removeRecord = async (parent, args, context, info) => {
+const removeRecord = async (_, args, __, info) => {
   const wantsDishes = pathExists(
     info.fieldNodes,
     ['removeRecord', 'dishes']

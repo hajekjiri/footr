@@ -3,7 +3,7 @@ const {
   getEmptyConnection
 } = require('../utils/common')
 
-const addDish = async (parent, args) => {
+const addDish = async (_, args) => {
   const dish = new Dish({
     name: args.input.name
   })

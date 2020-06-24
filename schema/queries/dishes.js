@@ -6,7 +6,7 @@ const {
   giveDishesRecords
 } = require('../utils/dish')
 
-const dishes = async (parent, args, context, info) => {
+const dishes = async (_, __, ___, info) => {
   let wantsDishRecords = pathExists(
     info.fieldNodes,
     ['dishes', 'edges', 'node', 'records']
