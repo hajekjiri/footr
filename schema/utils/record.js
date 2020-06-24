@@ -71,15 +71,15 @@ const getRecords = async (wantsDishes) => {
 }
 
 const getSingleRecordByIdOrDay = async (id, day, wantsDishes) => {
-  if (id === undefined && day === undefined) {
+  if (!id && !day) {
     throw new UserInputError('You must provide an id or a name of the record you want to query.')
   }
-  if (id !== undefined && day !== undefined) {
+  if (id && day) {
     throw new UserInputError('You cannot combine id and day parameters.')
   }
 
   let record
-  if (id !== undefined) {
+  if (id) {
     if (mongoose.Types.ObjectId.isValid(id)) {
       if (wantsDishes) {
         record = await Record.findById(id).populate('dishes')
@@ -98,7 +98,7 @@ const getSingleRecordByIdOrDay = async (id, day, wantsDishes) => {
   }
 
   if (record === null) {
-    if (id !== undefined) {
+    if (id) {
       throw new ApolloError(`Couldn't find record with id "${id}".`, 'NOT_FOUND')
     }
     throw new ApolloError(`Couldn't find record with day "${day.toISOString().slice(0, 10)}".`, 'NOT_FOUND')

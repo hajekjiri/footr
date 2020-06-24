@@ -37,7 +37,7 @@ const removeRecord = async (parent, args, context, info) => {
     throw new ApolloError(`Couldn't find record with day "${args.input.day.toISOString().slice(0, 10)}" and dishId "${args.input.dishId}".`, 'NOT_FOUND')
   }
 
-  const result = await getSingleRecordByIdOrDay(undefined, args.input.day, wantsDishes)
+  const result = await getSingleRecordByIdOrDay(null, args.input.day, wantsDishes)
   if (wantsDishRecords) {
     await giveDishesRecords(result.dishes)
   }

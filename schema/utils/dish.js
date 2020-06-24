@@ -25,15 +25,15 @@ const getDishes = async () => {
 }
 
 const getAndRemoveSingleDishByIdOrName = async (id, name) => {
-  if (id === undefined && name === undefined) {
+  if (!id && !name) {
     throw new ApolloError('You must provide an id or a name of the dish you want to remove.')
   }
-  if (id !== undefined && name !== undefined) {
+  if (id && name) {
     throw new ApolloError('You cannot combine id and name parameters.')
   }
 
   let dish
-  if (id !== undefined) {
+  if (id) {
     if (mongoose.Types.ObjectId.isValid(id)) {
       dish = await Dish.findByIdAndRemove(id)
     } else {
@@ -57,15 +57,15 @@ const getAndRemoveSingleDishByIdOrName = async (id, name) => {
 }
 
 const getSingleDishByIdOrName = async (id, name) => {
-  if (id === undefined && name === undefined) {
+  if (!id && !name) {
     throw new UserInputError('You must provide an id or a name of the dish you want to query.')
   }
-  if (id !== undefined && name !== undefined) {
+  if (id && name) {
     throw new UserInputError('You cannot combine id and name parameters.')
   }
 
   let dish
-  if (id !== undefined) {
+  if (id) {
     if (mongoose.Types.ObjectId.isValid(id)) {
       dish = await Dish.findById(id)
     } else {
@@ -76,7 +76,7 @@ const getSingleDishByIdOrName = async (id, name) => {
   }
 
   if (dish === null) {
-    if (id !== undefined) {
+    if (id) {
       throw new ApolloError(`Couldn't find dish with id "${id}".`, 'NOT_FOUND')
     }
     throw new ApolloError(`Couldn't find dish with name "${name}".`, 'NOT_FOUND')

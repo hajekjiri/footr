@@ -41,7 +41,7 @@ const addRecord = async (parent, args, context, info) => {
     await record.save()
   }
 
-  const result = await getSingleRecordByIdOrDay(undefined, args.input.day, wantsDishes)
+  const result = await getSingleRecordByIdOrDay(null, args.input.day, wantsDishes)
   if (wantsDishRecords) {
     await giveDishesRecords(result.dishes)
   }
