@@ -34,14 +34,18 @@ const getAndRemoveSingleDishByIdOrName = async (id, name) => {
 
   let dish
   if (id !== undefined) {
-    dish = await Dish.findByIdAndRemove(id)
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      dish = await Dish.findByIdAndRemove(id)
+    } else {
+      dish = null
+    }
     if (dish === null) {
-      throw new ApolloError(`Couldn't find dish with id "${id}".`, 'NOT FOUND')
+      throw new ApolloError(`Couldn't find dish with id "${id}".`, 'NOT_FOUND')
     }
   } else {
     dish = await Dish.findOneAndRemove({ name: name })
     if (dish === null) {
-      throw new ApolloError(`Couldn't find dish with name "${name}".`, 'NOT FOUND')
+      throw new ApolloError(`Couldn't find dish with name "${name}".`, 'NOT_FOUND')
     }
   }
 
@@ -73,9 +77,9 @@ const getSingleDishByIdOrName = async (id, name) => {
 
   if (dish === null) {
     if (id !== undefined) {
-      throw new ApolloError(`Couldn't find dish with id "${id}".`)
+      throw new ApolloError(`Couldn't find dish with id "${id}".`, 'NOT_FOUND')
     }
-    throw new ApolloError(`Couldn't find dish with name "${name}".`)
+    throw new ApolloError(`Couldn't find dish with name "${name}".`, 'NOT_FOUND')
   }
 
   const result = {

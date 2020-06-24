@@ -34,7 +34,7 @@ const removeRecord = async (parent, args, context, info) => {
     .updateOne({ $pull: { dishes: args.input.dishId } })
 
   if (query.nModified === 0) {
-    throw new ApolloError(`Couldn't find record with day "${args.input.day.toISOString().slice(0, 10)}" and dishId "${args.input.dishId}".`, 'NOT FOUND')
+    throw new ApolloError(`Couldn't find record with day "${args.input.day.toISOString().slice(0, 10)}" and dishId "${args.input.dishId}".`, 'NOT_FOUND')
   }
 
   const result = await getSingleRecordByIdOrDay(undefined, args.input.day, wantsDishes)

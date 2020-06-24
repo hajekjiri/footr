@@ -99,9 +99,9 @@ const getSingleRecordByIdOrDay = async (id, day, wantsDishes) => {
 
   if (record === null) {
     if (id !== undefined) {
-      throw new ApolloError(`Couldn't find record with id "${id}".`)
+      throw new ApolloError(`Couldn't find record with id "${id}".`, 'NOT_FOUND')
     }
-    throw new ApolloError(`Couldn't find record with day "${day.toISOString().slice(0, 10)}".`)
+    throw new ApolloError(`Couldn't find record with day "${day.toISOString().slice(0, 10)}".`, 'NOT_FOUND')
   }
 
   const result = {
