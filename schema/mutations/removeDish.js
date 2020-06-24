@@ -1,7 +1,3 @@
-const {
-  ApolloError
-} = require('apollo-server')
-const Dish = require('../../models/dish')
 const Record = require('../../models/record')
 const {
   pathExists
