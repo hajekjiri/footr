@@ -4,7 +4,11 @@
 
 Footr is fully compliant with the [JavaScript Standard Style](https://standardjs.com/).
 
-## Requirements
+## Documentation
+Documentation for Footr's GraphQL API can be found on my [GitHub Pages](https://hajekjiri.github.io/footr).
+
+## Getting started
+### 0. Requirements
 You'll need a running instance of MongoDB to store the records. Make sure to save your connection string URI in the `MONGODB_CONNECTION_STRING` environment variable or in the `.env` file. The `.env.example` file serves as an example.
 ```
 # File: .env
@@ -12,7 +16,6 @@ You'll need a running instance of MongoDB to store the records. Make sure to sav
 MONGODB_CONNECTION_STRING='mongodb://localhost:27017/myapp'
 ```
 
-## Getting started
 ### 1. Setup
 Clone the repository and install dependencies
 ```
@@ -51,9 +54,6 @@ Connected to database
 
 ### 3. Using Footr
 One of the ways you can interact with Footr is the GraphQL Playground which should be located at [http://localhost:4000/graphql](http://localhost:4000/graphql) once you start the server.
-
-## Documentation
-Documentation for Footr's GraphQL API can be found on my [GitHub Pages](https://hajekjiri.github.io/footr).
 
 ## Used external modules
 * [apollographql/apollo-server](https://github.com/apollographql/apollo-server) is licensed under the [MIT License](https://github.com/apollographql/apollo-server/blob/master/LICENSE)
