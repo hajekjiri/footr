@@ -2,6 +2,8 @@
 ## About
 **Foo**d **tr**acker is a service that allows you to keep track of what food you eat via its GraphQL API. It's currently built for single-user use, i.e. food records and food items aren't bound to any particular user.
 
+Footr is fully compliant with the [JavaScript Standard Style](https://standardjs.com/).
+
 ## Requirements
 You'll need a running instance of MongoDB to store the records. Make sure to save your connection string URI in the `MONGODB_CONNECTION_STRING` environment variable or in the `.env` file. The `.env.example` file serves as an example.
 ```
