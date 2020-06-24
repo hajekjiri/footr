@@ -14,8 +14,8 @@ MONGODB_CONNECTION_STRING='mongodb://localhost:27017/myapp'
 ### 1. Setup
 Clone the repository and install dependencies
 ```
-git clone https://github.com/hajekjiri/footr-backend.git
-cd footr-backend
+git clone https://github.com/hajekjiri/footr.git
+cd footr
 npm install
 ```
 
@@ -24,7 +24,7 @@ Simply start the server with `npm run start`.
 ```
 $ npm run start
 
-> footr-backend@1.0.0 start /home/jiri/projects/footr-backend
+> footr@1.0.0 start /home/jiri/projects/footr
 > node app.js
 
 Apollo Server ready at http://localhost:4000/
@@ -35,7 +35,7 @@ For development, you'll want to start the server with `npm run server` which sta
 ```
 $ npm run server
 
-> footr-backend@1.0.0 server /home/jiri/projects/footr-backend
+> footr@1.0.0 server /home/jiri/projects/footr
 > nodemon app.js
 
 [nodemon] 2.0.4
@@ -51,7 +51,7 @@ Connected to database
 One of the ways you can interact with Footr is the GraphQL Playground which should be located at [http://localhost:4000/graphql](http://localhost:4000/graphql) once you start the server.
 
 ## Documentation
-Documentation for Footr's GraphQL API can be found on my [GitHub Pages](https://hajekjiri.github.io/footr-backend).
+Documentation for Footr's GraphQL API can be found on my [GitHub Pages](https://hajekjiri.github.io/footr).
 
 ## Used external modules
 * [apollographql/apollo-server](https://github.com/apollographql/apollo-server) is licensed under the [MIT License](https://github.com/apollographql/apollo-server/blob/master/LICENSE)
