@@ -1,4 +1,7 @@
 const Dish = require('../../models/dish')
+const {
+  getEmptyConnection
+} = require('../utils/common')
 
 const addDish = async (parent, args) => {
   const dish = new Dish({
@@ -10,16 +13,7 @@ const addDish = async (parent, args) => {
     id: dish._id,
     name: dish.name,
     lastEaten: null,
-    records: {
-      edges: [],
-      totalCount: 0,
-      pageInfo: {
-        startCursor: null,
-        endCursor: null,
-        hasPreviousPage: false,
-        hasNextPage: false
-      }
-    }
+    records: getEmptyConnection()
   }
 
   return result

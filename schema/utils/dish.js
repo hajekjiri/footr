@@ -24,6 +24,34 @@ const getDishes = async () => {
   return result
 }
 
+const getAndRemoveSingleDishByIdOrName = async (id, name) => {
+  if (id === undefined && name === undefined) {
+    throw new ApolloError('You must provide an id or a name of the dish you want to remove.')
+  }
+  if (id !== undefined && name !== undefined) {
+    throw new ApolloError('You cannot combine id and name parameters.')
+  }
+
+  let dish
+  if (id !== undefined) {
+    dish = await Dish.findByIdAndRemove(id)
+    if (dish === null) {
+      throw new ApolloError(`Couldn't find dish with id "${id}".`, 'NOT FOUND')
+    }
+  } else {
+    dish = await Dish.findOneAndRemove({ name: name })
+    if (dish === null) {
+      throw new ApolloError(`Couldn't find dish with name "${name}".`, 'NOT FOUND')
+    }
+  }
+
+  const result = {
+    id: dish._id,
+    name: dish.name
+  }
+  return result
+}
+
 const getSingleDishByIdOrName = async (id, name) => {
   if (id === undefined && name === undefined) {
     throw new UserInputError('You must provide an id or a name of the dish you want to query.')
@@ -114,6 +142,7 @@ const getDishRecords = async (dishIds) => {
 }
 
 module.exports = {
+  getAndRemoveSingleDishByIdOrName,
   getDishes,
   getDishRecords,
   getSingleDishByIdOrName,
