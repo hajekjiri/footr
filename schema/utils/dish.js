@@ -53,6 +53,7 @@ const getDishes = async (args) => {
     dishes = await Dish.find().where(options).sort({ _id: 1 }).limit(args.first)
   } else {
     dishes = await Dish.find().where(options).sort({ _id: -1 }).limit(args.last)
+    dishes.reverse()
   }
 
   if (dishes.length === 0) {

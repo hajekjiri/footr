@@ -74,6 +74,7 @@ const getRecords = async (wantsDishes, args) => {
     } else {
       records = await Record.find().where(options).sort({ _id: -1 })
         .limit(args.last).populate('dishes')
+      records.reverse()
     }
   } else {
     if (args.first) {
@@ -82,6 +83,7 @@ const getRecords = async (wantsDishes, args) => {
     } else {
       records = await Record.find().where(options).sort({ _id: -1 })
         .limit(args.last)
+      records.reverse()
     }
   }
 
