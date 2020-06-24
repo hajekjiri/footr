@@ -370,10 +370,10 @@ type Mutation {
   """
   Add a record of an eaten dish.
   """
-  addRecord(input: RecordInput!): Record!
+  addDishRecord(input: RecordInput!): Record!
 
   """
   Remove a record of an eaten dish.
   """
-  removeRecord(input: RecordInput!): Record
+  removeDishRecord(input: RecordInput!): Record
 }
